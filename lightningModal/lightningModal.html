@@ -1,0 +1,53 @@
+<template>
+  <template if:true={_showModal}>
+    <section role="dialog" tabindex="-1" aria-labelledby={modalId} aria-modal="true"
+        aria-describedby={ariaDescribedbyId} 	class={modalSize}       
+    >
+        <div class="slds-modal__container"  style={customWith}>
+           <!--Header of the modal-->
+            <template if:false={hideHeader}>
+              <header class="slds-modal__header">
+                  <!-- sldsValidatorIgnoreNextLine -->
+                  <lightning-button-icon
+                      class="slds-modal__close"
+                      title="Close"
+                      icon-name="utility:close"
+                      icon-class="slds-button_icon-inverse"
+                      onclick={closeModalHandler}
+                  ></lightning-button-icon>
+
+                   <!--- Show Header when title is send -->
+                  <template if:true={_title}>
+                      <h2 id={modalId} class="slds-text-heading_medium slds-hyphenate header-string">
+                          {_title}
+                      </h2>
+                  </template>
+
+                   <!--show Header when title is not available but slot is available-->
+                  <template if:false={_title}>
+                      <h2 class="slds-text-heading_medium slds-hyphenate header-slot">
+                          <slot name="title"></slot>
+                      </h2>
+                  </template>
+
+                  <div class="tagline slds-var-m-top_x-small slds-hide">
+                      <slot name="tagline" onslotchange={taglineSlotHandler}></slot>
+                  </div>
+              </header>
+            </template>
+
+            <!---Body of the modal-->
+            <div class="slds-modal__content slds-var-p-around_medium" id={ariaDescribedbyId}>
+                <slot></slot>
+            </div>
+            <!---Footer of the modal-->
+            <template if:false={hideFooter}>
+              <footer class="slds-modal__footer slds-hide">
+                  <slot name="footer" onslotchange={footerSlotHandler}></slot>
+              </footer>
+            </template>
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+</template>
+</template>
